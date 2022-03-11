@@ -94,7 +94,7 @@ var attack = '<!DOCTYPE item [ <!ELEMENT item ANY ><!ENTITY xxe SYSTEM "file:///
 			</div><!-- /.col-->
 		</div><!-- /.row -->
 	
-     <center> <p style="font-size:2em;"> {% autoescape false %} {{nodes}} {% endautoescape %}</p></center>
+     <center> <p style="font-size:2em;"><th:block th:utext="${nodes}"></th:block></p></center>
 	
 	</div><!--/.main-->
    <style>
