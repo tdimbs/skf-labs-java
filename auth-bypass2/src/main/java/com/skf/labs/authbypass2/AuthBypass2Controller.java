@@ -35,9 +35,7 @@ public class AuthBypass2Controller {
                 request.getSession().setAttribute("loggedin",true);
                 request.getSession().setAttribute("username",username);
 
-                //List<Prefs> pref = authModel.getApiKey(users.get(0).getUserId());
-                //String result = DigestUtils.sha1Hex("An input string")
-                response.addCookie(new Cookie("sessionId",DigestUtils.sha1Hex(username)));
+                response.addCookie(new Cookie("sessionId",DigestUtils.sha1Hex(username+"SKFowaspLabs")));
                 model.addAttribute("username", username);
                 model.addAttribute("content", "Find the way to login as an admin!");
 
