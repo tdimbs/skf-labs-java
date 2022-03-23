@@ -42,6 +42,7 @@ public class RaceConditionController {
       }
     }
     model.addAttribute("action", action);
+    model.addAttribute("hello", hello);
     return "index";
   }
 
@@ -56,7 +57,8 @@ public class RaceConditionController {
           .start();
       BufferedReader reader = new BufferedReader(new java.io.InputStreamReader(p3.getInputStream()));
       String valid = reader.readLine();
-      return valid;
+      System.out.println(valid);
+      return valid == null ? "" : valid;
     } catch (Exception e) {
       e.printStackTrace();
     }
