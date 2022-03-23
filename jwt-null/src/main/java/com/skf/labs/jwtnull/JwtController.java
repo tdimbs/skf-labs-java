@@ -26,63 +26,60 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.skf.labs.jwtnull.JwtModel;
 import com.skf.labs.jwtnull.User;
 
-
 @Controller
 public class JwtController {
-    @PostMapping(value="/auth", 
-                 consumes = "application/json", 
-                 produces = "application/json")
-	public ResponseEntity<Object> auth(@RequestBody String req) {
+    @PostMapping(value = "/auth", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Object> auth(@RequestBody String req) {
         JSONObject jObject = new JSONObject(req);
-         User user =  JwtModel.users.stream().filter(u -> u.getUsername().equals(jObject.get("username"))).findFirst().orElse(null);
-       
-           if(null!= user && user.getPassword().equals(jObject.get("password"))){
+        User user = JwtModel.users.stream().filter(u -> u.getUsername().equals(jObject.get("username"))).findFirst()
+                .orElse(null);
 
-           Algorithm algorithm = Algorithm.HMAC256("VerylongUnbreakablesecretbecausebruteforceisnotthecase");
+        if (null != user && user.getPassword().equals(jObject.get("password"))) {
+
+            Algorithm algorithm = Algorithm.HMAC256("VerylongUnbreakablesecretbecausebruteforceisnotthecase");
             String token = JWT.create()
-                                .withClaim("identity",user.getId())
-                                .sign(algorithm);
+                    .withClaim("identity", user.getId())
+                    .sign(algorithm);
 
-                JSONObject jwtObj = new JSONObject();
-                jwtObj.put("access_token",token);
-       
-                return ResponseEntity.status(HttpStatus.OK).body(jwtObj.toMap());
-           
-       }else{
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("FORBIDDEN"); 
-       }
-	}
+            JSONObject jwtObj = new JSONObject();
+            jwtObj.put("access_token", token);
+
+            return ResponseEntity.status(HttpStatus.OK).body(jwtObj.toMap());
+
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("FORBIDDEN");
+        }
+    }
 
     @GetMapping("/protected")
-    public  ResponseEntity<Object> protectedPage(@RequestHeader("Authorization") String jwtToken){
+    public ResponseEntity<Object> protectedPage(@RequestHeader("Authorization") String jwtToken) {
         jwtToken = jwtToken.substring(4);
         String jwtHeader = jwtToken.split("\\.")[0];
         byte[] decodedBytes = Base64.getDecoder().decode(jwtHeader);
         jwtHeader = new String(decodedBytes);
         JSONObject jwtHeaderObj = new JSONObject(jwtHeader);
         Algorithm algorithm = Algorithm.HMAC256("VerylongUnbreakablesecretbecausebruteforceisnotthecase");
-        if(jwtHeaderObj.get("alg").equals("none")){
+        if (jwtHeaderObj.get("alg").equals("none")) {
             algorithm = Algorithm.none();
         }
-        
-
-        try{
+        try {
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT decodedJWT = verifier.verify(jwtToken);
-
-            User user =  JwtModel.users.stream().filter(u -> u.getId() == Integer.parseInt(decodedJWT.getClaims().get("identity").toString())).findFirst().orElse(null);
-            if(null != user){
+            User user = JwtModel.users.stream()
+                    .filter(u -> u.getId() == Integer.parseInt(decodedJWT.getClaims().get("identity").toString()))
+                    .findFirst().orElse(null);
+            if (null != user) {
                 JSONObject jsonObj = new JSONObject();
-                jsonObj.put("id",user.getId());
-                jsonObj.put("username",user.getUsername());
-                jsonObj.put("username",user.getRole());
+                jsonObj.put("id", user.getId());
+                jsonObj.put("username", user.getUsername());
+                jsonObj.put("username", user.getRole());
                 return ResponseEntity.status(HttpStatus.OK).body(jsonObj.toMap());
-            }else{
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("FORBIDDEN"); 
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("FORBIDDEN");
             }
-        }catch(JWTVerificationException e){
+        } catch (JWTVerificationException e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("FORBIDDEN"); 
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("FORBIDDEN");
         }
-   }
+    }
 }

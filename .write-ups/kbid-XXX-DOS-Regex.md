@@ -32,9 +32,8 @@ If the email is not in the format user@domain.tld, the app will return "Not Matc
 
 The application uses regex to identify a valid email. The regex tries to find every possible combinations of a pattern in the text:
 
-```javascript
-const re =
-  /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@{1}([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
+```java
+Pattern pattern = Pattern.compile("^([0-9a-zA-Z]([-.\\w]*[0-9a-zA-Z])*@{1}([0-9a-zA-Z][-\\w]*[0-9a-zA-Z]\\.)+[a-zA-Z]{2,9})$", Pattern.CASE_INSENSITIVE);
 ```
 
 A username can have one or more `-` (dash) or `.` (dot) in the username and/or letters and number. In the domain we could have one or more `-` (dash) and letters and/or numbers.
@@ -49,7 +48,7 @@ We first send a normal request and monitor the response time in ms
 
 ![](../../.gitbook/assets/java/dos-regex/4.png)
 
-If we increase the leght of our payload we can see that the ms increases: from 2ms to 33ms:
+If we increase the leght of our payload we can see that the ms increases: from 8ms to 48ms:
 
 ![](../../.gitbook/assets/java/dos-regex/5.png)
 
@@ -57,7 +56,7 @@ If we increase the leght of our payload we can see that the ms increases: from 2
 Something is happening !!!
 ```
 
-Let's increase the lenght of the payload even more. From 28 characters, we send 35. The response arrives in 3291ms. As we can see the TTR (Time To Respond) is increases exponentially.
+Let's increase the lenght of the payload even more.The response arrives in 3057ms. As we can see the TTR (Time To Respond) is increases exponentially.
 
 ![](../../.gitbook/assets/java/dos-regex/6.png)
 
@@ -65,11 +64,7 @@ Let's increase the lenght of the payload even more. From 28 characters, we send 
 
 We want to exploit this problem to create a DoS (Denial of Service) and make the app unavailable.
 
-We send a long string like
-
-`aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`
-
-and wait till the app crashes or exhausts all the resources.
+We now send a very long string and wait till the app crashes or exhausts all the resources.
 
 ## Additional sources
 

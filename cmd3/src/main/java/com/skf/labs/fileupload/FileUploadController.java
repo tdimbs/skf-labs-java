@@ -1,7 +1,6 @@
 package com.skf.labs.fileupload;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -33,7 +32,7 @@ public class FileUploadController {
   @PostMapping("/")
   public String handleFileUpload(@RequestParam("file") MultipartFile file,
       Model model, Model modelAndView) throws IOException {
-    if(allowedFile(file.getOriginalFilename())) {
+    if (allowedFile(file.getOriginalFilename())) {
       storageService.store(file);
       model.addAttribute("uploaded", "You successfully uploaded !");
     } else {
@@ -55,14 +54,17 @@ public class FileUploadController {
 
   private static class systemCall {
     private static systemCall instance = null;
+
     private systemCall() {
     }
+
     public static systemCall getInstance() {
       if (instance == null) {
         instance = new systemCall();
       }
       return instance;
     }
+
     public String utilityProcessor(String command) throws IOException {
       Process pb = new ProcessBuilder("/bin/sh", "-c",
           command)
@@ -77,6 +79,5 @@ public class FileUploadController {
       return sb.toString();
     }
   }
-
 
 }
