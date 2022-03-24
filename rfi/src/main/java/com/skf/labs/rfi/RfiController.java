@@ -20,7 +20,6 @@ public class RfiController {
 
   @GetMapping("/")
   public String index(Model model) {
-    model.addAttribute("result", "test");
     return "index";
   }
 

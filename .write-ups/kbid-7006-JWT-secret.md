@@ -34,20 +34,18 @@ The image above shows the access-token contains three base64 encoded splitted wi
 
 #### Header
 
-```javascript
+```json
 {
-  "alg": "HS256",
-  "typ": "JWT"
+  "typ": "JWT",
+  "alg": "HS256"
 }
 ```
 
 #### Claims
 
-```javascript
+```json
 {
-  "id": 1,
-  "iat": 1641555260,
-  "exp": 1641558860
+  "identity": 1
 }
 ```
 
@@ -72,20 +70,11 @@ How about checking if the server used a weak secret key for digital signature al
 
 Checking the code below it's possible to see a weak secret key is being used, which can be easily guessed by a dictionary attack using tools available on internet and in your favorite PenTest distro.
 
-```javascript
-const secret = "secret";
-app.post("/auth", (req, res) => {
-  const user = authenticate(req.body.username, req.body.password);
-  if (user) {
-    const token = jwt.sign({ id: user.id }, secret, {
-      expiresIn: "1h",
-    });
-    res.json({
-      access_token: token,
-    });
-  }
-});
-});
+```java
+Algorithm algorithm = Algorithm.HMAC256("secret");
+String token = JWT.create()
+  .withClaim("identity",user.getId())
+  .sign(algorithm);
 ```
 
 ### Step 2
