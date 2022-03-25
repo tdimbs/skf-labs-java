@@ -24,6 +24,9 @@ public class UserInfo{
     private User user;
 
 
+    public UserInfo() {
+    }
+
     public UserInfo(int id, String name, String surname, String date_of_birth, String api_key, User user) {
         this.id = id;
         this.name = name;
