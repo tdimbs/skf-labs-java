@@ -103,14 +103,7 @@ function getCookie(name) {
   			method: 'POST',
   			headers: { 'Content-Type': 'application/json' },
   			body: `
-  			{
- 					singleUser (userId: `+uuid+`) {
-    				api_key
-    				name
-    				surname
-    				date_of_birth
-  				}
-			}
+			  {"query":"{singleUser (id: `+uuid+`) {api_key\\r\\nname\\r\\nsurname\\r\\ndate_of_birth\\r\\n}}","variables":null}
   				` 
 
 		})
@@ -118,6 +111,7 @@ function getCookie(name) {
   		.then(json => {
 	  		console.log(json);
 	  		
+			var userdata = json;
 	  		
 	  		els =  `
 	   		<div class="row">
@@ -126,16 +120,16 @@ function getCookie(name) {
 						
 						<div class="panel-body">
 							<div class="col-md-12">
-								Name : ${json.singleUser[0].name}
+								Name : ${userdata.data.singleUser.name}
 							</div>	
 							<div class="col-md-12">
-								Surname: ${json.singleUser[0].surname}
+								Surname: ${userdata.data.singleUser.surname}
 							</div>
 							<div class="col-md-12">
-								Date of Birth: ${json.singleUser[0].date_of_birth}
+								Date of Birth: ${userdata.data.singleUser.date_of_birth}
 							</div>
 							<div class="col-md-12">
-								API Key: ${json.singleUser[0].api_key}
+								API Key: ${userdata.data.singleUser.api_key}
 							</div>
 						</div>
 					</div>

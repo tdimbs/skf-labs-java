@@ -1,21 +1,39 @@
-package com.skf.labs.graphqlidor;
+package com.skf.labs.graphqlidor.entity;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
 
 
-public class UserInfo {
+
+@Entity
+public class UserInfo{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
     private String surname;
     private String date_of_birth;
     private String api_key;
-    private int userId;
-    
-    public UserInfo(int id, String name, String surname, String date_of_birth, String api_key, int userId) {
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id",  referencedColumnName = "id")
+    private User user;
+
+
+    public UserInfo() {
+    }
+
+    public UserInfo(int id, String name, String surname, String date_of_birth, String api_key, User user) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.date_of_birth = date_of_birth;
         this.api_key = api_key;
-        this.userId = userId;
+        this.user = user;
     }
 
     public int getId() {
@@ -54,19 +72,15 @@ public class UserInfo {
         return api_key;
     }
 
-    public void setApiKey(String apiKey) {
+    public void setApiKey(String api_key) {
         this.api_key = api_key;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
-
-
-    
 
 }

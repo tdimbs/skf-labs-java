@@ -6,15 +6,15 @@ type  User{
     id: ID!
     username: String!
     password: String!
-    isAdmin: Boolean!
-    #posts: [Post!] @relation
+    admin: Boolean!
+    #post: [Post!] @relation
 }
 
 type Post{
     id: ID!
     title: String!
     body: String!
-    author_id: User!
+    user: User!
 }
 
 type UserInfo{
@@ -23,14 +23,23 @@ type UserInfo{
     surname: String!
     date_of_birth: String!
     api_key: String!
-    userId: Int!
+    user: User!
 }
 
 
 
 type Query{
-    singleUser(userId: Int!): [UserInfo]
-    users: [User]
+    findAllUsers: [User]
+    singleUser(id: ID): UserInfo
+    singleUserInjection(id: ID): UserInfo
+    findAllUserInfos: [UserInfo]
+    findAllPosts: [Post]
 }
 
+
+type Mutation{
+    createPost(title: String!, body: String, author_id: ID! ): Post
+    updatePost(id: ID! , title: String, body: String! ): Post
+    deletePost(id: ID!): Boolean
+}
    
