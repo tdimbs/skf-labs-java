@@ -6,7 +6,7 @@ LABEL MAINTAINER="Glenn ten Cate <glenn.ten.cate@owasp.org>"
 FROM builder
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} /skf/app.jar
-ARG JAR_FILE=target/*.sh
+ARG JAR_FILE=run_services.sh
 COPY ${JAR_FILE} /skf/run_services.sh
 
 ### CREATING LIMITED USER AND CHAING WORKDIR FOLDER OWNERSHIP

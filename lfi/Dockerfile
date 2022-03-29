@@ -4,7 +4,7 @@ LABEL MAINTAINER="Glenn ten Cate <glenn.ten.cate@owasp.org>"
 
 ### DYNAMIC LAYER
 FROM builder
-ARG RES=target/text
+ARG RES=text
 COPY ${RES} /skf/text
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} /skf/app.jar
