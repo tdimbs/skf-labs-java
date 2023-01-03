@@ -111,25 +111,27 @@
 		<div class="row">
 
 		</div><!--/.row-->
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Live demonstration!</h1>
+			</div>
+		</div><!--/.row-->
 				
 		
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Server Side Template Injection (SSTI)!</div>
+					<div class="panel-heading">500 ERROR</div>
 					<div class="panel-body">
 						<div class="col-md-6">
-								<a href="/home/1">Welcome</a><br/>
-								<a href="/home/2">About us</a>	
-               			</div>
-						</form>
+							<p>The page you where looking for at <b><th:block th:text="@{__${path}__}"></th:block></b> is not working! </p>
+							<p>Please follow this link to return to <a href="/" style="color:blue;">home</a></p>
+						</div>
 					</div>
 				</div>
 			</div><!-- /.col-->
 		</div><!-- /.row -->
-		
-
-	
 	</div><!--/.main-->
 
 	</div>

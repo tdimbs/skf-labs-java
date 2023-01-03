@@ -7,9 +7,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class SstiController {
-	@GetMapping("/{path}")
-	public String home(@PathVariable String path, Model model) {
-		model.addAttribute("title", "test");
-		return "index";
-	}
+    @GetMapping("/home/{pageId}")
+    public String home(@PathVariable int pageId){
+        switch(pageId){
+            case 1:
+            return "redirect:/error/404";
+            case 2:
+            return "redirect:/error/500";
+            default:  
+            return "redirect:/";
+        }
+      
+    }
+
+    @GetMapping("/error/{code}")
+    public String error(@PathVariable String code){
+        return "error/"+code;
+    }
 }
