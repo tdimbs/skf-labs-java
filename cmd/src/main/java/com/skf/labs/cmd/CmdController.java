@@ -13,7 +13,7 @@ public class CmdController {
     
     @PostMapping("/home")
 	public String login(@RequestParam(name="size", required=true) String sizeImg) throws IOException, InterruptedException{
-        Process pb = new ProcessBuilder("/bin/sh","-c","convert repo/bones.png -resize "+sizeImg+"% repo/bones.png").redirectErrorStream(true).start();
+        Process pb = new ProcessBuilder("/bin/sh","-c","convert "+System.getProperty("user.dir")+"/repo/bones.png -resize "+sizeImg+"% "+System.getProperty("user.dir")+"/repo/bones.png").redirectErrorStream(true).start();
         return "index";
       }
 }
